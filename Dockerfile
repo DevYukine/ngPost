@@ -21,8 +21,7 @@ WORKDIR /usr/src/ngPost
 ENV TZ=Europe/Berlin
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apt update
-RUN apt install -y tzdata
+RUN apt update && apt install -y tzdata
 
 # Install dependencies.
 RUN apt update -y && apt install -y \
@@ -35,11 +34,17 @@ RUN apt update -y && apt install -y \
     git \
     wget \
     python2-dev \
-    rar \
     bash \
     language-pack-ja \
     language-pack-zh* \
     language-pack-ko
+
+# Manually install rar because of ubuntu memes
+RUN curl -# -L http://archive.ubuntu.com/ubuntu/pool/multiverse/r/rar/rar_5.5.0-1_amd64.deb -o rar_5.5.0-1_amd64.deb
+
+RUN dpkg -i rar_5.5.0-1_amd64.deb
+
+RUN rm rar_5.5.0-1_amd64.deb
 
 RUN \
     # Download sources for ngPost.
