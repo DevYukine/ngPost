@@ -12,6 +12,9 @@ ARG NGPOST_VERSION=4.16
 # Define software download URLs.
 ARG NGPOST_URL=https://github.com/mbruel/ngPost/archive/v${NGPOST_VERSION}.tar.gz
 
+ENV LANG en_GB.UTF-8
+ENV LC_ALL en_GB.UTF-8
+
 # Define working directory.
 WORKDIR /usr/src/ngPost
 
@@ -33,7 +36,10 @@ RUN apt update -y && apt install -y \
     wget \
     python2-dev \
     rar \
-    bash
+    bash \
+    language-pack-ja \
+    language-pack-zh* \
+    language-pack-ko
 
 RUN \
     # Download sources for ngPost.
