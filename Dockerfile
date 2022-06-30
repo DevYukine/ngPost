@@ -37,7 +37,8 @@ RUN apt update -y && apt install -y \
     bash \
     language-pack-ja \
     language-pack-zh* \
-    language-pack-ko
+    language-pack-ko \
+    language-pack-en
 
 # Manually install rar because of ubuntu memes
 RUN curl -# -L http://archive.ubuntu.com/ubuntu/pool/multiverse/r/rar/rar_5.5.0-1_amd64.deb -o rar_5.5.0-1_amd64.deb
