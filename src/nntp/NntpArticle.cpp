@@ -53,6 +53,21 @@ NntpArticle::NntpArticle(NntpFile *file, uint part, qint64 pos, qint64 bytes,
     }
 }
 
+std::string generateRandomString(int length)
+{
+    static const char alphanum[] =
+        "0123456789"
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        "abcdefghijklmnopqrstuvwxyz";
+
+    std::string randomString;
+    for (int i = 0; i < length; ++i) {
+        randomString += alphanum[rand() % (sizeof(alphanum) - 1)];
+    }
+
+    return randomString;
+}
+
 void NntpArticle::yEncBody(const char data[])
 {
     // do the yEnc encoding
@@ -62,8 +77,13 @@ void NntpArticle::yEncBody(const char data[])
 
     // format the body
     std::stringstream ss;
+    // Generate a random string for the filename
+    const int randomStringLength = 10; // You can adjust the length as per your needs
+    std::string randomString = generateRandomString(randomStringLength);
+    
+    // Use the generated random string as the filename
     ss << "=ybegin part=" << _part << " total=" << _nntpFile->nbArticles() << " line=128"
-       << " size=" << _nntpFile->fileSize() << " name=" << _nntpFile->fileName() << Nntp::ENDLINE
+       << " size=" << _nntpFile->fileSize() << " name=" << randomString << Nntp::ENDLINE;
        << "=ypart begin=" << _filePos + 1 << " end=" << _filePos + _fileBytes << Nntp::ENDLINE
        << yencBody << Nntp::ENDLINE
        << "=yend size=" << _fileBytes << " pcrc32=" << std::hex << crc32 << Nntp::ENDLINE
